@@ -26,32 +26,20 @@
 
 ```plaintext
 
-rag-project/
+rag-llama-app/
 
 ├── app/
-
 │ ├── __init__.py
-
 │ ├── main.py # The main Flask application entry point
-
 │ ├── templates/
-
 │ │ └── index.html # The front-end HTML UI
-
 │ ├── utils/
-
 │ │ ├── ingestion.py # PDF ingestion, chunking, embedding, upsert to Qdrant
-
 │ │ ├── retrieval.py # Reranking, expanded context filtering, etc.
-
 │ │ └── __init__.py
-
 ├── RAG-Application.ipynb # Jupyter Notebook demonstrating ingestion/retrieval logic
-
 ├── requirements.txt # Python dependencies
-
 ├── .gitignore
-
 └── README.md # (this file)
 ```
 
