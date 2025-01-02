@@ -61,7 +61,7 @@ rag-project/
 - **Prompt:** Llama uses the final curated context + user query  
 - **Memory:** Session-based chat  
 
-![RAG Architecture](.Architecture.jpeg)
+![RAG Architecture](Architecture.jpeg)
 
 
 ## Key Directories/Files
