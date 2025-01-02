@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RagBase Application</title>
+  <!-- Bootstrap & Font Awesome -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+  <!-- Google Font: Poppins (example includes 900 for bolder text) -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ======== TOP BAR ======== */
+    .top-bar {
+      background-color: #fff;   /* White background for the top bar */
+      display: flex;
+      justify-content: flex-end; /* Right-align the icons/text */
+      align-items: center;
+      padding: 0.5rem 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .top-bar span, .top-bar i {
+      margin-left: 1rem;
+      color: #333;
+      cursor: pointer;
+      font-size: 0.95rem; /* Adjust to your preference */
+    }
+    .top-bar i {
+      font-size: 1.1rem;
+    }
+    .top-bar span:hover, .top-bar i:hover {
+      color: #007bff;
+    }
+
+    /* ======== LANDING SECTION ======== */
+    #uploadSection {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 40px 20px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: box-shadow 0.3s ease;
+    }
+    #uploadSection:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    #uploadSection h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 2rem;
+      color: #333;
+    }
+    #uploadSection h3 {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 30px;
+    }
+    .upload-instructions {
+      position: relative;
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      padding: 40px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .upload-instructions:hover {
+      background-color: #f9f9f9;
+    }
+    .upload-instructions input[type="file"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .cloud-upload-icon {
+      font-size: 50px;
+      color: #aaa;
+      margin-bottom: 15px;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .cloud-upload-icon:hover {
+      color: #007bff;
+      transform: scale(1.1);
+    }
+    #uploadStatus {
+      margin-top: 15px;
+      font-weight: 500;
+      color: #999;
+    }
+
+    /* ======== CHAT SECTION ======== */
+    #chatSection {
+      display: none;
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+    .chat-container-section {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-title {
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 900;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .chat-container {
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      padding: 10px;
+      max-height: 400px;
+      margin-bottom: 20px;
+      flex-grow: 1; 
+    }
+    .message {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+      overflow: hidden;
+      background-color: #eee;
+      flex-shrink: 0;
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .message-content {
+      background-color: #e9e9e9;
+      padding: 12px 15px;
+      border-radius: 10px;
+      max-width: 70%;
+      word-wrap: break-word;
+      font-size: 14px;
+    }
+    .user .message-content {
+      background-color: #d4f1bc;
+      margin-left: auto;
+    }
+    .input-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .input-area input {
+      flex-grow: 1;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+      font-size: 14px;
+    }
+    .input-area .clip-icon {
+      position: relative;
+      padding: 0 10px;
+      cursor: pointer;
+    }
+    .clip-icon input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .input-area button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .input-area button:hover {
+      background-color: #0056b3;
+    }
+    .edit-icon {
+      margin-left: 10px;
+      color: #007bff;
+      cursor: pointer;
+    }
+    .edit-icon:hover {
+      color: #0056b3;
+    }
+
+    /* Typing indicator */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      background-color: #007bff;
+      border-radius: 50%;
+      animation: blink 1.5s infinite ease-in-out;
+    }
+    .dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    @keyframes blink {
+      0%, 80%, 100% {
+        opacity: 0;
+      }
+      40% {
+        opacity: 1;
+      }
+    }
+
+    /* PDF Upload Animation */
+    .pdf-upload img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+    .pdf-upload {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    .upload-progress {
+      position: relative;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+    }
+    .circle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 2px solid #007bff;
+      border-radius: 50%;
+      animation: expand 1.5s infinite linear;
+    }
+    @keyframes expand {
+      0% {
+        transform: scale(0.5);
+        opacity: 0.3;
+      }
+      50% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.5);
+        opacity: 0.3;
+      }
+    }
+
+    /* ======== REFERENCES AS TILES ======== */
+    .reference-tile {
+      margin-top: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background-color: #fff;
+    }
+    .reference-tile-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      cursor: pointer;
+      color: #007bff;
+      border-bottom: 1px solid #ddd;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+      transition: background-color 0.2s;
+      font-weight: 500;
+    }
+    .reference-tile-header:hover {
+      background-color: #f2f2f2;
+    }
+    .reference-tile-header i {
+      margin-left: 8px;
+      transition: transform 0.2s ease;
+    }
+    .reference-tile-content {
+      display: none;
+      background-color: #f9f9f9;
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+      padding: 10px 15px;
+      font-size: 14px;
+    }
+    .reference-tile-content a {
+      color: #007bff;
+      font-weight: 500;
+    }
+
+    /* ======== FOOTER (DISCLAIMER) ======== */
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #555;
+      padding: 15px;
+      margin-top: 30px;
+    }
+
+    /* In-place editing container */
+    .edit-container {
+      margin-top: 10px;
+      background: #fff;
+      border-radius: 6px;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <span>Share</span>
+    <i class="fa-regular fa-star"></i>
+    <a href="https://github.com/noorislam1994" target="_blank">
+      <i class="fab fa-github"></i>
+    </a>
+    <i class="fas fa-ellipsis-v"></i>
+  </div>
+
+  <!-- UPLOAD SECTION -->
+  <div id="uploadSection">
+    <h1>RagBase Application</h1>
+    <h3>Get answers from your documents</h3>
+    <div class="upload-instructions">
+      <div class="cloud-upload-icon">
+        <i class="fas fa-cloud-upload-alt"></i>
+      </div>
+      <p style="font-weight:500;">Drag and drop files here</p>
+      <p id="uploadStatus">Please upload PDF documents to continue!</p>
+      <input type="file" id="fileInput" accept="application/pdf" />
+    </div>
+  </div>
+
+  <!-- CHAT SECTION -->
+  <div id="chatSection">
+    <div class="chat-container-section">
+      <h1 class="chat-title">RagBase Application</h1>
+      <div class="chat-container" id="chatContainer"></div>
+      <div class="input-area">
+        <input type="text" id="queryInput" placeholder="Ask a question..." />
+        <span class="clip-icon">
+          <i class="fas fa-paperclip"></i>
+          <input type="file" id="chatFileInput" name="chatFile" />
+        </span>
+        <button id="queryBtn"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER DISCLAIMER -->
+  <footer>
+    This Rag Base Application can make mistakes. Ensure to inspect the document to double check.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Generate or retrieve session ID
+    function generateRandomSessionId() {
+      return 'session_' + Math.random().toString(36).substring(2, 15);
+    }
+
+    const existingSession = localStorage.getItem('chatSessionId');
+    let sessionId;
+    if (existingSession) {
+      sessionId = existingSession;
+    } else {
+      sessionId = generateRandomSessionId();
+      localStorage.setItem('chatSessionId', sessionId);
+    }
+
+    // DOM references
+    const uploadSection = document.getElementById('uploadSection');
+    const fileInput = document.getElementById('fileInput');
+    const uploadStatus = document.getElementById('uploadStatus');
+    const chatSection = document.getElementById('chatSection');
+    const chatContainer = document.getElementById('chatContainer');
+    const queryInput = document.getElementById('queryInput');
+    const queryBtn = document.getElementById('queryBtn');
+    const chatFileInput = document.getElementById('chatFileInput');
+
+    // Hide chat section initially
+    chatSection.style.display = 'none';
+
+    // Upload PDF logic
+    fileInput.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      uploadStatus.innerHTML = `
+        <div class="pdf-upload">
+          <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
+              alt="PDF Icon" style="opacity: 0.5;">
+          <span>${file.name}</span>
+          <div class="upload-progress">
+            <div class="circle"></div>
+          </div>
+        </div>
+      `;
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const response = await fetch('/upload', {
+          method: 'POST',
+          body: formData,
+        });
+        const data = await response.json();
+
+        const pdfUploadElement = uploadStatus.querySelector('.pdf-upload');
+        const pdfIcon = pdfUploadElement.querySelector('img');
+        const uploadProgress = pdfUploadElement.querySelector('.upload-progress');
+        if (uploadProgress) uploadProgress.remove();
+        pdfIcon.style.opacity = '1';
+
+        if (response.ok) {
+          pdfUploadElement.innerHTML = `
+            <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PDF Icon">
+            <span style="font-weight: bold; color: #007bff;">${file.name} uploaded successfully!</span>
+          `;
+          setTimeout(() => {
+            uploadSection.style.display = 'none';
+            chatSection.style.display = 'block';
+
+            // Greeting from bot
+            addMessageWithReferences(
+              "Hi! What do you want to know about your documents?",
+              null,
+              false, // isUser -> false
+              false
+            );
+          }, 1000);
+        } else {
+          pdfUploadElement.innerHTML = `
+            <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PDF Icon" style="opacity: 0.5;">
+            <span style="font-weight: bold; color: red;">Error: ${data.error}</span>
+          `;
+        }
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        uploadStatus.innerHTML = `
+          <span style="font-weight: bold; color: red;">
+            An error occurred while uploading the file.
+          </span>
+        `;
+      }
+    });
+
+    // If there's a second file input (chatFileInput), you can implement logic similarly
+    if (chatFileInput) {
+      chatFileInput.addEventListener('change', async (e) => {
+        // Additional logic if needed
+      });
+    }
+
+    // Chat function
+    function scrollChatToBottom() {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    let messageCounter = 0; // We will store incremental indices to each message
+
+    function addMessageWithReferences(text, references, isUser, isEditable = false) {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message', isUser ? 'user' : 'bot');
+
+      // Assign a data-index so we can do rewinds
+      messageDiv.setAttribute('data-index', messageCounter);
+      messageCounter++;
+
+      // Avatar
+      const avatarDiv = document.createElement('div');
+      avatarDiv.classList.add('avatar');
+      const avatarImg = document.createElement('img');
+      avatarImg.src = isUser
+        ? 'https://avatar.iran.liara.run/public/49'
+        : 'https://avatar.iran.liara.run/public/job/operator/female';
+      avatarImg.alt = isUser ? 'User Avatar' : 'Bot Avatar';
+      avatarDiv.appendChild(avatarImg);
+
+      // Message content
+      const messageContentDiv = document.createElement('div');
+      messageContentDiv.classList.add('message-content');
+      messageContentDiv.innerHTML = text;
+
+      // References
+      if (references && references.length > 0) {
+        references.forEach((ref, index) => {
+          const tileWrapper = document.createElement('div');
+          tileWrapper.classList.add('reference-tile');
+
+          const tileHeader = document.createElement('div');
+          tileHeader.classList.add('reference-tile-header');
+          tileHeader.innerHTML = `Source #${index + 1} <i class="fas fa-chevron-down"></i>`;
+
+          const tileContent = document.createElement('div');
+          tileContent.classList.add('reference-tile-content');
+          tileContent.innerHTML = `
+            ${ref.text}
+            <br>
+            <a href="/get_pdf" target="_blank">Open Document</a>
+          `;
+
+          tileHeader.addEventListener('click', () => {
+            const isVisible = tileContent.style.display === 'block';
+            tileContent.style.display = isVisible ? 'none' : 'block';
+            tileHeader.innerHTML = isVisible
+              ? `Source #${index + 1} <i class="fas fa-chevron-down"></i>`
+              : `Source #${index + 1} <i class="fas fa-chevron-up"></i>`;
+          });
+
+          tileWrapper.appendChild(tileHeader);
+          tileWrapper.appendChild(tileContent);
+          messageContentDiv.appendChild(tileWrapper);
+        });
+      }
+
+      // Edit icon if it's user and editable
+      if (isUser && isEditable) {
+        const editIcon = document.createElement('i');
+        editIcon.classList.add('fas', 'fa-pen', 'edit-icon');
+        editIcon.title = 'Edit your query';
+
+        editIcon.addEventListener('click', () => {
+          // Let the user edit in place
+          // We do in-line rewriting: "Send" or "Cancel"
+
+          // Hide original
+          messageContentDiv.style.display = 'none';
+
+          const editContainer = document.createElement('div');
+          editContainer.classList.add('edit-container');
+
+          const textArea = document.createElement('textarea');
+          textArea.rows = 3;
+          textArea.style.width = '100%';
+          textArea.value = text;
+
+          const buttonRow = document.createElement('div');
+          buttonRow.style.marginTop = '10px';
+          buttonRow.style.display = 'flex';
+          buttonRow.style.gap = '10px';
+
+          const cancelBtn = document.createElement('button');
+          cancelBtn.innerText = 'Cancel';
+          cancelBtn.style.backgroundColor = '#6c757d';
+          cancelBtn.style.color = 'white';
+          cancelBtn.style.border = 'none';
+          cancelBtn.style.padding = '8px 12px';
+          cancelBtn.style.borderRadius = '5px';
+          cancelBtn.style.cursor = 'pointer';
+
+          const sendBtn = document.createElement('button');
+          sendBtn.innerText = 'Send';
+          sendBtn.style.backgroundColor = '#007bff';
+          sendBtn.style.color = 'white';
+          sendBtn.style.border = 'none';
+          sendBtn.style.padding = '8px 12px';
+          sendBtn.style.borderRadius = '5px';
+          sendBtn.style.cursor = 'pointer';
+
+          buttonRow.appendChild(cancelBtn);
+          buttonRow.appendChild(sendBtn);
+          editContainer.appendChild(textArea);
+          editContainer.appendChild(buttonRow);
+
+          messageDiv.appendChild(editContainer);
+
+          cancelBtn.addEventListener('click', () => {
+            // restore the original
+            messageContentDiv.style.display = 'block';
+            editContainer.remove();
+          });
+
+          sendBtn.addEventListener('click', () => {
+            const revisedText = textArea.value.trim();
+            if (!revisedText) {
+              // if empty, revert
+              messageContentDiv.style.display = 'block';
+              editContainer.remove();
+              return;
+            }
+            // Let's find the original index
+            const oldIndexStr = messageDiv.getAttribute('data-index');
+            const oldIndex = parseInt(oldIndexStr, 10);
+
+            // Remove from the DOM everything from oldIndex onward
+            removeMessagesFromIndex(oldIndex);
+
+            // Insert a new user message with revised text
+            addMessageWithReferences(revisedText, null, true, true);
+
+            // Send new query with rewind_to_index
+            requeryWithRevisedText(revisedText, oldIndex);
+
+            // Cleanup
+            editContainer.remove();
+          });
+        });
+
+        messageContentDiv.appendChild(editIcon);
+      }
+
+      messageDiv.appendChild(avatarDiv);
+      messageDiv.appendChild(messageContentDiv);
+
+      chatContainer.appendChild(messageDiv);
+      scrollChatToBottom();
+    }
+
+    /**
+     * Remove all messages with data-index >= the given index.
+     */
+    function removeMessagesFromIndex(startIndex) {
+      const messages = Array.from(chatContainer.querySelectorAll('.message'));
+      messages.forEach(msg => {
+        const idxStr = msg.getAttribute('data-index');
+        if (idxStr) {
+          const idx = parseInt(idxStr, 10);
+          if (idx >= startIndex) {
+            msg.remove();
+          }
+        }
+      });
+    }
+
+    function showTypingIndicator() {
+      const typingIndicator = document.createElement('div');
+      typingIndicator.classList.add('message', 'bot');
+      typingIndicator.id = 'typingIndicator';
+      typingIndicator.innerHTML = `
+        <div class="avatar">
+          <img src="https://avatar.iran.liara.run/public/job/operator/female" alt="Bot Avatar">
+        </div>
+        <div class="message-content">
+          <div class="typing-indicator">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+      `;
+      chatContainer.appendChild(typingIndicator);
+      scrollChatToBottom();
+    }
+
+    function removeTypingIndicator() {
+      const typingIndicator = document.getElementById('typingIndicator');
+      if (typingIndicator) typingIndicator.remove();
+    }
+
+    /**
+     * Requery with the revised text, telling the server to cut conversation_history at oldIndex
+     */
+    async function requeryWithRevisedText(revisedText, oldIndex) {
+      showTypingIndicator();
+      try {
+        const response = await fetch('/query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            query: revisedText,
+            session_id: sessionId,
+            rewind_to_index: oldIndex // slice conversation on the backend
+          }),
+        });
+        const data = await response.json();
+        removeTypingIndicator();
+
+        const fullResponse = data.response || "No response received.";
+        const answer = fullResponse.split("Answer:")[1]?.trim() || fullResponse;
+        addMessageWithReferences(answer, data.references, false);
+      } catch (error) {
+        console.error("Error requerying with revised text:", error);
+        removeTypingIndicator();
+        addMessageWithReferences("An error occurred while processing your revised request.", null, false);
+      }
+    }
+
+    // Submitting a brand new query
+    queryBtn.addEventListener('click', async () => {
+      const query = queryInput.value.trim();
+      if (!query) return;
+
+      addMessageWithReferences(query, null, true, true);
+      queryInput.value = '';
+
+      showTypingIndicator();
+      try {
+        const response = await fetch('/query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            query,
+            session_id: sessionId
+          }),
+        });
+        const data = await response.json();
+        removeTypingIndicator();
+
+        const fullResponse = data.response || "No response received.";
+        const answer = fullResponse.split("Answer:")[1]?.trim() || fullResponse;
+
+        addMessageWithReferences(answer, data.references, false);
+      } catch (error) {
+        console.error("Error:", error);
+        removeTypingIndicator();
+        addMessageWithReferences("An error occurred while processing your request.", null, false);
+      }
+    });
+  </script>
+</body>
+</html>
