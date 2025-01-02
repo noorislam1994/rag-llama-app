@@ -94,7 +94,7 @@ pip install -r requirements.txt
 2. Retrieve your **API key** and set it in your code or environment variables (where the code references `qdrant_client = QdrantClient(...)`).
 3. If hosting Qdrant locally, ensure it’s running and accessible at the specified **URL**.
 
-### Get the LLaMA Model License & Download
+### Get the Llama Model License & Download
 
 1. **Request a license** from Meta for the **Llama 3.2–3B-Instruct** model (or whichever Llama variant you prefer).
 2. **Once approved**, you’ll receive access to the model or a download URL.
