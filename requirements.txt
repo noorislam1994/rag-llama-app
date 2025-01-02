@@ -1,0 +1,21 @@
+flask==3.0.0                  # Flask for the web app and API
+transformers==4.35.0          # Hugging Face Transformers for embeddings and reranking
+torch==2.1.0                  # PyTorch for LLaMA model
+qdrant-client==1.3.1          # Qdrant client for vector storage and retrieval
+sentence-transformers==2.2.2  # Hugging Face MiniLM embeddings (all-MiniLM-L6-v2)
+numpy==1.24.3                 # Numerical computations
+scikit-learn==1.3.0           # Cosine similarity, metrics
+pandas==2.0.3                 # Data manipulation
+pdfminer.six==20221105        # PDF parsing (for PyPDFLoader alternative)
+PyPDF2==3.0.1                 # PDF handling
+langchain==0.1.0              # LangChain for text splitters, retrievers, and LLM integration
+langchain-community==0.0.7    # LangChain community components
+langchain-experimental==0.0.3 # Experimental LangChain features like Semantic Chunker
+transformers-streaming==0.5.0 # For efficient LLaMA model loading
+flask-cors==4.0.0             # Cross-Origin Resource Sharing for Flask (optional but useful)
+flask-socketio==5.3.4         # For real-time WebSocket-based communication
+gunicorn==21.2.0              # For deploying Flask in production
+jupyterlab==4.0.5             # For running the RAG-Application.ipynb notebook
+tqdm==4.65.0                  # Progress bars for long-running processes
+requests==2.31.0              # HTTP requests (used by Qdrant client)
+python-dotenv==1.0.0          # Manage environment variables (API keys)
