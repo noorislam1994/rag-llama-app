@@ -79,8 +79,8 @@ rag-llama-app/
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/noorislam1994/rag-project.git
-cd rag-project
+git clone https://github.com/noorislam1994/rag-llama-app.git
+cd rag-llama-app
 ```
 ### Install Dependencies
 
